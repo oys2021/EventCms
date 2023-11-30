@@ -1,0 +1,122 @@
+{% extends 'dashboard/base_template.html' %}
+{% block about-page-active %}mm-active{% endblock %}
+
+{% block pagetitle %}About{% endblock %} {% block content %}
+
+<div class="app-main__inner">
+  <div class="app-page-title">
+    <div class="page-title-wrapper">
+      <div class="page-title-heading">
+        <div class="page-title-icon">
+          <i class="metismenu-icon bi bi-person-lines-fill"></i>
+        </div>
+        <div>
+          About
+          <div class="page-title-subheading">Easily modify these fiels to update the website.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+    <li class="nav-item">
+      <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-overview">
+        <span>Overview</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-mission">
+        <span>Mission</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-vision">
+        <span>Vision</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-value">
+        <span>Value</span>
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane tabs-animation fade show active" id="tab-content-overview" role="tabpanel">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="main-card mb-3 p-4 card">
+            <h1>Overview</h1>
+            <form method="POST">
+              {% csrf_token %}
+              <textarea name="overview-content" required>{{about.overview}}</textarea>
+              <div class="form-group">
+                <button class="btn btn-primary mt-4" type="submit">Update</button>
+              </div>
+              <form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="tab-content-mission" role="tabpanel">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="main-card mb-3 p-4 card">
+            <h1>Mission</h1>
+            <form method="POST">
+              {% csrf_token %}
+              <textarea name="mission-content" required>{{about.mission}}</textarea>
+              <div class="form-group">
+                <button class="btn btn-primary mt-4" type="submit">Update</button>
+              </div>
+              <form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="tab-content-vision" role="tabpanel">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="main-card mb-3 p-4 card">
+            <h1>Vision</h1>
+            <form method="POST">
+              {% csrf_token %}
+              <textarea name="vission-content" required>{{about.vision}}</textarea>
+              <div class="form-group">
+                <button class="btn btn-primary mt-4" type="submit">Update</button>
+              </div>
+              <form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="tab-content-value" role="tabpanel">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="main-card mb-3 p-4 card">
+            <h1>Value</h1>
+            <form method="POST">
+              {% csrf_token %}
+              <textarea name="value-content" required>{{about.value}}</textarea>
+              <div class="form-group">
+                <button class="btn btn-primary mt-4" type="submit">Update</button>
+              </div>
+              <form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scriptfiles %}
+<script>
+  CKEDITOR.replace('overview-content');
+  CKEDITOR.replace('mission-content');
+  CKEDITOR.replace('vission-content');
+  CKEDITOR.replace('value-content');
+</script>
+{% endblock %}

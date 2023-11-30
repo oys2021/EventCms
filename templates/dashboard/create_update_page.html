@@ -1,0 +1,75 @@
+{% extends 'dashboard/base_template.html' %}
+{% block pages-page-active %}mm-active{% endblock %}
+{% block pagetitle %}Page{% endblock %}
+
+{%block content %}
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="metismenu-icon bi bi-person-lines-fill"></i>
+                </div>
+                <div>
+                    Pages
+                    <div class="page-title-subheading">Design the static page as you wish. You can always update.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="main-card mb-3 p-4 card">
+                    {% if messages %}
+                    <div id="message-container" class="col-md-12 mx-auto">
+                        {% for message in messages %}
+                        <div class="alert alert-{{message.tags}} alert-dismissible fade show py-3 mt-2" role="alert">
+                            <strong>Alert! </strong> {{message}}.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="page_id" value={{page.id}}>
+
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input class="form-control" type="text" name="title" id="title" value="{{page.title}}"
+                                placeholder="Title" required>
+                        </div>
+
+                        <label for="page_content">
+                            <h4>Content</h4>
+                        </label>
+                        <textarea name="content" id="page_content" required>{{page.content}}</textarea>
+
+                        <div class="form-group mt-3">
+                            <p class="m-0 text text-warning">Invisible pages will not show on the website.</p>
+                            <label class="font-weight-bold" for="is_active">Status</label>
+                            <input type="checkbox" name="visible" id="visible" {% if page.visible %}checked{% endif %}
+                                data-toggle="toggle" data-on="Visible" data-off="Invisible" data-onstyle="success"
+                                data-offstyle="danger">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary mt-4" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scriptfiles %}
+<script>
+    CKEDITOR.replace('page_content');
+</script>
+{% endblock %}

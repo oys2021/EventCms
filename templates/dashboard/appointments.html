@@ -1,0 +1,74 @@
+{% extends 'dashboard/base_template.html' %}
+{% block appointments-page-active %}mm-active{% endblock %}
+{% block pagetitle %}Appointments{% endblock %}
+
+{% load static %}
+
+{%block content %}
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
+                </div>
+                <div>
+                    Appointments
+                    <div class="page-title-subheading">
+                        Here is a list of current appointments.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <table style="width: 100%" id="example" class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>DoB</th>
+                        <th>Email</th>
+                        <th>Number</th>
+                        <th>Service</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Booked At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>
+                            {{appointment.fullname}}
+                        </td>
+                        <td>
+                            {{appointment.date_of_birth}}
+                        </td>
+                        <td>
+                            {{appointment.email}}
+                        </td>
+                        <td>
+                            {{appointment.number}}
+                        </td>
+                        <td>
+                            {{appointment.service}}
+                        </td>
+                        <td>
+                            {{appointment.message}}
+                        </td>
+                        <td>
+                            {{appointment.date}}
+                            {{appointment.time}}
+                        </td>
+                        <td>
+                            {{appointment.created_at}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
