@@ -58,5 +58,8 @@ class LoginView(View):
                 return render(request,self.template_name)
         
     
-
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('event:home')
         
