@@ -195,6 +195,29 @@
                                     <i class="metismenu-icon bi bi-list-task"></i> Appointments
                                 </a>
                             </li>
+
+                             <!-- New Event Menu -->
+                             <li class="app-sidebar__heading">Event</li>
+                             <li>
+                                 <a href="#" class="metismenu-link">
+                                     <i class="metismenu-icon bi bi-calendar"></i> Event
+                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                 </a>
+                                 <ul>
+                                     <li>
+                                         <a href="{% url 'administrator:create_event' %}" class="{% block create-event-page-active %}{% endblock %}">
+                                             <i class="metismenu-icon"></i> Create Event
+                                         </a>
+                                     </li>
+                                     <li>
+                                         <a href="{% url 'administrator:create_category' %}">
+                                             <i class="metismenu-icon"></i> Create Event_Category
+                                         </a>
+                                     </li>
+                                 </ul>
+                             </li>
+                             <!-- End Event Menu -->
+ 
                             <li class="app-sidebar__heading">Website</li>
                             <li>
                                 <a href=""

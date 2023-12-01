@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,Group,
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models.query import QuerySet
 from django.utils.translation import gettext_lazy as _ 
+from mapbox_location_field.models import LocationField
 
 
 
@@ -63,4 +64,48 @@ class newUser(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+    
+
+    
+class EventCategory(models.Model):
+    name=models.CharField(max_length=150,null=True)
+    code=models.PositiveIntegerField()
+    created_at=models.DateField(auto_now_add=True)
+    updated_at=models.DateField(auto_now_add=True)
+    
+    
+    def __str__(self):
+        return self.name
+    
+class Event(models.Model):
+    category=models.ForeignKey(EventCategory,on_delete=models.CASCADE)
+    title=models.CharField(max_length=100)
+    uid=models.PositiveIntegerField()
+    description = models.TextField()
+    venue = models.CharField(max_length=255)
+    start_date=models.DateField()
+    end_date=models.DateField()
+    location = models.CharField(max_length=255)
+    maximum_attendance = models.PositiveIntegerField()
+    created_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now_add=True)
+    image=models.ImageField(upload_to='event/')
+    status_choice = (
+        ('disabled', 'Disabled'),
+        ('active', 'Active'),
+        ('deleted', 'Deleted'),
+        ('time out', 'Time Out'),
+        ('completed', 'Completed'),
+        ('cancel', 'Cancel'),
+    )
+    status = models.CharField(choices=status_choice, max_length=10)
+    speaker_name = models.CharField(max_length=120)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    
+    def __str__(self):
+        return self.title
+    
+    
+    
 

@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'event'
+    'event',
+    "mapbox_location_field",
+    'crispy_forms',
+    'bootstrap4',
+    'tempus_dominus',
+    'crispy_bootstrap5',
+    'datetimewidget',
+    
 ]
 
 MIDDLEWARE = [
@@ -131,10 +138,20 @@ STATICFILES_DIRS = [
 # Add this if you're working in development and want to serve static files with the development server.
 # In production, you would typically let your web server handle this.
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+# Media files (Images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL="administrator:login"
+
+MAPBOX_KEY = "pk.eyJ1IjoibWlnaHR5c2hhcmt5IiwiYSI6ImNqd2duaW4wMzBhcWI0M3F1MTRvbHB0dWcifQ.1sDAD43q0ktK1Sr374xGfw"  
+

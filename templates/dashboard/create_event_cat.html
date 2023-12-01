@@ -1,0 +1,63 @@
+{% extends 'dashboard/base_template.html' %}
+{% block title %}Create Event{% endblock title %}
+{% block breadcrumb %}Create Event{% endblock breadcrumb %}
+{% load crispy_forms_tags %}
+{% load mapbox_location_field_tags %}
+
+{% block extrahead %}
+    <!-- Mapbox Configuration -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% include_jquery %}
+    <!-- Mapbox Configuration -->
+{% endblock extrahead %}
+
+{% block content %}
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card" style="width: 70%;">
+            <div class="card-header">
+                <div class="row">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="col-md-10 text-center">
+                        <h5>Create Category</h5>
+                    </div>
+                    <div class="col-md-2 text-end">
+                      <a class="btn btn-success btn-sm" href="" style="height: 30px;">Event</a>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Add other form fields here -->
+                            {{ form|crispy }}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 text-center">
+                            <!-- Add other form fields here -->
+                            {{ form_1|crispy }}
+                            {{ form_2|crispy }}
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3" type="submit">Create Event</button>
+                </form>
+                {{ form.media }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2FqaWIxMDY2IiwiYSI6ImNrYnJqb2x6NDAyN2cyc3BuenoxemNjdmEifQ.uWDYuTOqXB9KMPBmeDxORw';
+        var map = new mapboxgl.Map({
+            container: 'location-field-map',
+            style: 'mapbox://styles/mapbox/streets-v11'
+        });
+    </script>
+{% endblock content %}

@@ -5,6 +5,7 @@ from event.models import newUser
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your models here.
+from administrator.forms import EventForm,CategoryForm
 from django.shortcuts import get_object_or_404
 
 class HomeView(LoginRequiredMixin,View):
@@ -108,7 +109,48 @@ class ChangePasswordView(LoginRequiredMixin,View):
         return redirect(request.META.get("HTTP_REFERER"))
                         
         
-
+class CreateEventView(View):
+    template_name="dashboard/create_event.html"
+    
+    def get(self,request,*args,**kwargs):
+        form=EventForm()
+        return render(request,self.template_name,{"form":form})
+    
+    def post(self,request,*args,**kwargs):
+        form=EventForm(request.POST,request.FILES)
+        
+        if form.is_valid():
+            event=form.save(commit=False)
+            event.save()
+            
+            messages.success(request, 'Event created successfully!')
+            return redirect('administrator:dash_home')
+        
+        else:
+            messages.error(request, 'Invalid form submission. Please check the data entered.')
+            return render(request, self.template_name, {'form': form})
+        
+class CreateCategoryView(View):
+    template_name="dashboard/create_event_cat.html"
+    
+    def get(self,request,*args,**kwargs):
+        form=CategoryForm()
+        return render(request,self.template_name,{"form":form})
+    
+    def post(self,request,*args,**kwargs):
+        form=CategoryForm(request.POST)
+        
+        if form.is_valid():
+            event_category=form.save(commit=False)
+            event_category.save()
+            
+            messages.success(request, 'Event created successfully!')
+            return redirect('administrator:dash_home')
+        
+        else:
+            messages.error(request, 'Invalid form submission. Please check the data entered.')
+            return render(request, self.template_name, {'form': form})
+        
             
               
         
