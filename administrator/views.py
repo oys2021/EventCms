@@ -5,6 +5,7 @@ from event.models import newUser
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your models here.
+from django.shortcuts import get_object_or_404
 
 class HomeView(LoginRequiredMixin,View):
     template_name="dashboard/index.html"
@@ -65,7 +66,47 @@ class LoginView(View):
                 return redirect("administrator:login")
                 
             
-                
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('event:home')
+    
+class ChangePasswordView(LoginRequiredMixin,View):
+    template_name="dashboard/accounts/change_password.html"
+    def get(self,request,*args,**kwargs):
+        administrator=request.user
+        context={"administrator":administrator}
+        return render(request,self.template_name,context)
+    
+    def post(self,request,*args,**kwargs):
+        current_password=request.POST.get('current_password')
+        password=request.POST.get('password')
+        repeat_password=request.POST.get('repeat_password')
+        admin_id=request.POST.get('admin_id')
+        
+        user_to_change = get_object_or_404(newUser, id=admin_id)
+        loggedin_user=authenticate(email=request.user.email,password=current_password)
+        
+        if not loggedin_user:
+            messages.add_message(request, messages.ERROR,
+                                 "Invalid credentials")
+        
+        elif password != repeat_password:
+            messages.add_message(request, messages.ERROR,
+                                 "Passwords do not match.")
+        
+        elif loggedin_user.is_staff or loggedin_user == user_to_change:
+            user_to_change.set_password(password)
+            user_to_change.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Password updated successfully.")
+            
+        elif loggedin_user == user_to_change:
+            login(request, loggedin_user)
+        else:
+            messages.add_message(request, messages.ERROR, "Forbidden")
+        return redirect(request.META.get("HTTP_REFERER"))
+                        
         
 
             

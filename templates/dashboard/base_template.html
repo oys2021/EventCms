@@ -101,7 +101,7 @@
                                                                         profile description</div>
                                                                 </div>
                                                                 <div class="widget-content-right mr-2">
-                                                                    <a href="">
+                                                                    <a href="{%url 'administrator:logout'%}">
                                                                         <button
                                                                             class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</button>
                                                                     </a>
@@ -115,14 +115,9 @@
                                                 <div class="scrollbar-container ps">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a href="javascript:void(0);" class="nav-link">Recover
+                                                            <a href="{%url 'administrator:change_password'%}" class="nav-link">Recover
                                                                 Password</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a href="javascript:void(0);" class="nav-link">My
-                                                                Account</a>
-                                                        </li>
-
+                                                            </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -181,7 +176,7 @@
                         <ul class="vertical-nav-menu">
                             <li class="app-sidebar__heading">Menu</li>
                             <li>
-                                <a href=""
+                                <a href="{%url 'administrator:dash_home'%}"
                                     class="{% block dashboard-page-active %}{% endblock %}">
                                     <i class="metismenu-icon bi bi-speedometer2"></i> Dashboard
                                 </a>
