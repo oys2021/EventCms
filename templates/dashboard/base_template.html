@@ -188,7 +188,7 @@
                             </li>
                             {% comment %} {% if request.user.is_superuser %} {% endcomment %}
                             <li>
-                                <a href=""
+                                <a href="{%url 'administrator:create_admin'%}"
                                     class="{% block administrators-page-active %}{% endblock %}">
                                     <i class="metismenu-icon bi bi-people"></i> Administrators
                                 </a>

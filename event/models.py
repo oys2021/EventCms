@@ -44,7 +44,7 @@ class newUser(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_name']  # Change 'username' to 'user_name'
+    REQUIRED_FIELDS = ['user_name'] # Change 'username' to 'user_name'
     objects = EventManager()
 
     is_staff = models.BooleanField(default=False)
