@@ -12,6 +12,10 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="Sinel Hospital">
     <link rel="shortcut icon" href="{% static 'img/logo_small.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-ezqLGG8JlUUpuRZLD9F0xQvO8HnrIl/u4zrh5NlH2h1wOZaW3Xl6zWh1T5MRV2HV" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1a55X+uxT8ukau9aHokzUW4kx1J9On+cv4Zc+NZbMvTqSPxCr5kGZQOv53V6RSRtvXMbO8BtK3CC5dRmVe5Afw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}">
+
 
     <!-- Disable tap highlight on IE -->
     <meta name="msapplication-tap-highlight" content="no">
@@ -96,7 +100,7 @@
                                                                         src="{% static 'img/logo_small.png' %}" alt="">
                                                                 </div>
                                                                 <div class="widget-content-left">
-                                                                    <div class="widget-heading">{{request.user}}</div>
+                                                                    <div class="widget-heading">{{request.user.user_name}}</div>
                                                                     <div class="widget-subheading opacity-8">A short
                                                                         profile description</div>
                                                                 </div>
@@ -196,6 +200,26 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="#" class="metismenu-link">
+                                    <i class="metismenu-icon bi bi-people"></i> Administrators
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'administrator:create_admin' %}">
+                                            <i class="metismenu-icon"></i>  Create Administrator
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'administrator:create_category' %}">
+                                            <i class="metismenu-icon"></i> Admin list
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
                              <!-- New Event Menu -->
                              <li class="app-sidebar__heading">Event</li>
                              <li>
@@ -214,69 +238,22 @@
                                              <i class="metismenu-icon"></i> Create Event_Category
                                          </a>
                                      </li>
+                                     <li>
+                                         <a href="{% url 'administrator:event_list' %}">
+                                             <i class="metismenu-icon"></i> Event List
+                                         </a>
+                                     </li>
                                  </ul>
                              </li>
                              <!-- End Event Menu -->
  
                             <li class="app-sidebar__heading">Website</li>
-                            <li>
-                                <a href=""
-                                    class="{% block about-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-person-lines-fill"></i> About
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block contact-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-telephone"></i> Contact
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block gallery-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-images"></i> Gallery
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block services-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-file-medical"></i> Services
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block team-leads-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-bricks"></i> Team Lead
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block testimonials-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-envelope"></i> Testimonials
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block partners-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-building"></i> Partners
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                    class="{% block pages-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-book"></i> Pages
-                                </a>
-                            </li>
+                            
+                          
                             <li>
                                 <a href=""
                                     class="{% block notifications-page-active %}{% endblock %}">
                                     <i class="metismenu-icon bi bi-bell"></i> Notifications
-                                </a>
-                            </li>
-                            <li class="app-sidebar__heading">Apps</li>
-                            <li>
-                                <a href="" class="{% block blog-page-active %}{% endblock %}">
-                                    <i class="metismenu-icon bi bi-app"></i> Blog
                                 </a>
                             </li>
                         </ul>

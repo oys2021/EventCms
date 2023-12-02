@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.views.generic import View
 from django.contrib import messages
-from event.models import newUser
+from event.models import newUser,Event
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your models here.
 from administrator.forms import EventForm,CategoryForm
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 class HomeView(LoginRequiredMixin,View):
     template_name="dashboard/index.html"
@@ -151,6 +153,74 @@ class CreateCategoryView(View):
             messages.error(request, 'Invalid form submission. Please check the data entered.')
             return render(request, self.template_name, {'form': form})
         
-            
+class EventListView(View):
+    template_name = "dashboard/event_list.html"
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            events = Event.objects.all()
+            context = {"event": events}
+        except Event.DoesNotExist:
+            # Handle the case when no events are found
+            context = {"event": None}
+
+        return render(request, self.template_name, context)
+    
+class EventDetailView(View):
+    template_name = "dashboard/event_detail.html"
+
+    def get(self, request, event_id, *args, **kwargs):
+        try:
+            # Attempt to retrieve the event by its ID
+            event = get_object_or_404(Event, id=event_id)
+            context = {"event": event}
+        except Event.DoesNotExist:
+            # Handle the case when no events are found
+            context = {"event": None}
+
+        return render(request, self.template_name, context)
+    
+class EventUpdateView(View):
+    template_name = "dashboard/event_update.html"
+
+    def get(self, request, event_id, *args, **kwargs):
+        # Retrieve the event by its ID
+        event = get_object_or_404(Event, id=event_id)
+        form = EventForm(instance=event)
+        context = {"event": event, "form": form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, event_id, *args, **kwargs):
+        # Retrieve the event by its ID
+        event = get_object_or_404(Event, id=event_id)
+        form = EventForm(request.POST, instance=event)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('administrator:event_detail', args=[event.id]))
+        else:
+            # Form is not valid, render the template with errors
+            context = {"event": event, "form": form}
+            return render(request, self.template_name, context)
+        
+class EventDeleteView(View):
+    template_name = "dashboard/event_delete.html"
+
+    def get(self, request, event_id, *args, **kwargs):
+        # Retrieve the event by its ID
+        event = get_object_or_404(Event, id=event_id)
+        context = {"event": event}
+        return render(request, self.template_name, context)
+
+    def post(self, request, event_id, *args, **kwargs):
+        # Retrieve the event by its ID
+        event = get_object_or_404(Event, id=event_id)
+        
+        # Delete the event
+        event.delete()
+
+        return HttpResponseRedirect(reverse('administrator:event_list'))
+
+           
               
         
