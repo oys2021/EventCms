@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
-from .models import newUser
+from .models import newUser,Event
 from django.contrib.auth import authenticate,login ,logout 
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
@@ -10,6 +10,21 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+
+class HomeView(View):
+    template_name="index.html"
+    
+    def get(self,request,*args,**kwargs):
+        events=Event.objects.all()
+        context={"event":events}
+        return render(request,self.template_name,context)
+    
+class EventDetailsView(View):
+    template_name="event-details.html"
+    def get(self,request,event_id,*args,**kwargs):
+        event=get_object_or_404(Event,id=event_id)
+        context={"event":event}
+        return render(request,self.template_name,context)
 
 class CreateUserView(View):
     template_name="register.html"
