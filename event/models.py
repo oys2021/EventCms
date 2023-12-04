@@ -106,6 +106,14 @@ class Event(models.Model):
     def __str__(self):
         return self.title
     
+class RegisteredUser(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    email = models.EmailField()
+    registration_code = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.registration_code
+    
     
     
 

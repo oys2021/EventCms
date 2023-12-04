@@ -35,11 +35,11 @@
                         </li> {% endcomment %}
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            
-                            Register for event
-                    
-                        </button>
+                        <div><a class="btn btn-outline-dark mt-auto" href="{%url 'event:register_event' event.id %}">Register for Event</a></div>
+                        
+                        
+                
+                  
                     </form>
                 </div>
             </div>
@@ -59,9 +59,8 @@
                         </div> {% endcomment %}
                         <p class="lead">{{event.description}}</p>
                         <div class="d-flex">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                Register for Event
-                            </button>
+                        <div><a class="btn btn-outline-dark mt-auto" href="{%url 'event:register_event' event.id %}">Register for Event</a></div>
+                            
                         </div>
                     </div>
                 </div>

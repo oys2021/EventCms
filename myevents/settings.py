@@ -155,3 +155,18 @@ LOGIN_URL="administrator:login"
 
 MAPBOX_KEY = "pk.eyJ1IjoibWlnaHR5c2hhcmt5IiwiYSI6ImNqd2duaW4wMzBhcWI0M3F1MTRvbHB0dWcifQ.1sDAD43q0ktK1Sr374xGfw"  
 
+
+# settings.py
+
+# Use SMTP as the email backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP configuration for Gmail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Gmail credentials
+EMAIL_HOST_USER = 'yawsarfo2019@gmail.com'  # Replace with your Gmail email address
+EMAIL_HOST_PASSWORD = 'yaw20sarfo19'  # Replace with your Gmail password or an app password
+

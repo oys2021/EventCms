@@ -10,4 +10,5 @@ urlpatterns = [
     path('login', views.LoginView.as_view(), name='login'),
     path('home', views.HomeView.as_view(), name='home_view'),
     path('event-details/<int:event_id>', views.EventDetailsView.as_view(), name='event-details'),
+    path('register_event/<int:event_id>', views.RegisterEventView.as_view(), name='register_event'),
 ]
