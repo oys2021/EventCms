@@ -129,10 +129,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Absolute filesystem path to the directory that will hold static files.
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+STATICFILES_DIRS = [BASE_DIR / "static"] # new
+STATIC_ROOT = BASE_DIR / "staticfiles" # new
 # ...
 
 # Add this if you're working in development and want to serve static files with the development server.
