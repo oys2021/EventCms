@@ -10,14 +10,17 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Research about am.
 
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin,View):
     template_name="index.html"
+    login_url = "event:login" 
     
     def get(self,request,*args,**kwargs):
         events=Event.objects.all()
@@ -30,8 +33,10 @@ class EventDetailsView(View):
         event=get_object_or_404(Event,id=event_id)
         context={"event":event}
         return render(request,self.template_name,context)
-    
+
+
 class RegisterEventView(View):
+    
     template_name = "register_event.html"
 
     def get(self, request, event_id, *args, **kwargs):
@@ -42,7 +47,20 @@ class RegisterEventView(View):
         event = Event.objects.get(pk=event_id)
 
         try:
-            # Get the user from the email
+            # Check if the user is already registered for the event
+            if user_email == request.user.email:
+                existing_registration = RegisteredUser.objects.get(event=event, email=user_email)
+                return HttpResponseServerError("You are already registered for this event.")
+            
+            else:
+                messages.add_message(request,messages.ERROR,"Invalid User")
+                return redirect("event:register_event")
+                
+                
+                
+
+        except RegisteredUser.DoesNotExist:
+            # If the user is not already registered, proceed with registration
             user, created = newUser.objects.get_or_create(email=user_email)
 
             # Generate a registration code (you might want to use a more sophisticated method)
@@ -61,11 +79,15 @@ class RegisterEventView(View):
                 fail_silently=False,
             )
 
-            return render(request, self.template_name)
+            # Pass additional context directly
+            context = {
+                'user_email': user_email,
+                'registration_code': registration_code,
+            }
 
-        except newUser.DoesNotExist:
-            # Handle the case where the user does not exist
-            raise Http404("User not found")
+            return render(request, self.template_name, context)
+
+
         
 class CreateUserView(View):
     template_name="register.html"
@@ -91,26 +113,65 @@ class CreateUserView(View):
             user.set_password(password)
             user.save()
         return redirect("event:home")
+ 
+# class LoginView(View):
+#     template_name = "login.html"
 
-@method_decorator(csrf_protect, name='dispatch')   
+#     def get(self, request, *args, **kwargs):
+#         return render(request, self.template_name)
+
+#     def post(self, request, *args, **kwargs):
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+
+#         user = authenticate(email=email, password=password)
+
+#         if user:
+#             print("User authenticated:", user)
+#             login(request, user)
+#             return redirect('event:home')
+#         else:
+#             print("Invalid credentials. Email:", email)
+#             messages.add_message(request, messages.ERROR, "Invalid credentials")
+#             return render(request, self.template_name)
+
+            
+from django.urls import reverse
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views import View
+from django.contrib import messages
+
 class LoginView(View):
-        template_name="login.html"
-        
-        def get(self,request,*args,**kwargs):
-            return render(request,self.template_name)
-        
-        def post(self,request,*args,**kwargs):
+    template_name="login.html"
+            
+    def get(self,request,*args,**kwargs):
+        return render(request,self.template_name)
+    
+    def post(self,request,*args,**kwargs):
             email=request.POST.get('email')
             password=request.POST.get('password')
             
             user=authenticate(email=email,password=password)
             
-            if user:
+            if user is not None:
                 login(request,user)
-                return redirect('event:home')
+                return redirect("event:home")    
+            
             else:
-                messages.add_message(request, messages.ERROR,
-                                "Invalid credentials")
-                return render(request,self.template_name)
+                messages.add_message(request,messages.ERROR,"Invalid login from anonymous user")
+                return redirect("event:login")
+
+
+
+            
+            
+            
+            
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('event:home')
         
     

@@ -12,6 +12,7 @@ from django.urls import reverse
 
 class HomeView(LoginRequiredMixin,View):
     template_name="dashboard/index.html"
+    LOGIN_URL="administrator:login"
     
     def get(self,request,*args,**kwargs):
         return render(request,self.template_name)

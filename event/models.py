@@ -114,6 +114,10 @@ class RegisteredUser(models.Model):
     def __str__(self):
         return self.registration_code
     
+    # class Meta:
+    #     # Add the unique_together constraint
+    #     unique_together = ('event', 'email')
+    
     
     
 
